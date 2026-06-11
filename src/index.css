@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  cursor: url('/paintbrush_cursor.png') 120 8, default !important;
+}
+
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #040404;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --primary-color: #ffffff;
+  --accent-color: #fca311;
+  --glass-bg: rgba(25, 25, 25, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: url('/paintbrush_cursor.png') 120 8, auto !important;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+  cursor: url('/paintbrush_cursor.png') 120 8, auto !important;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: url('/paintbrush_cursor.png') 120 8, auto !important;
+}
+
+/* Force all canvas elements to inherit cursor — prevents R3F from overriding */
+canvas {
+  cursor: inherit !important;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Scrollbar hide for smooth experience */
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Door hover custom cursor */
+body.door-hover, body.door-hover * {
+  cursor: url('/pointer_hand_cursor.png') 53 6, pointer !important;
+}
+
+/* Store inside cursor override */
+.store-inside, .store-inside * {
+  cursor: url('/pointer_hand_cursor.png') 53 6, default !important;
+}
+
+/* Vintage Paper Styles */
+.vintage-paper {
+  background-color: #d6c6a7; /* Base warm paper color */
+  background-image: url('https://www.transparenttextures.com/patterns/old-paper.png'); /* Subtle texture */
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.2), 0 20px 50px rgba(0,0,0,0.5);
+  color: #2b251f;
+  font-family: 'Playfair Display', serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.vintage-border {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border: 1px solid rgba(43, 37, 31, 0.4);
+  pointer-events: none;
+}
+
+.vintage-border::before, .vintage-border::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgba(43, 37, 31, 0.4);
+}
+.vintage-border::before { top: -4px; left: -4px; border-right: none; border-bottom: none; }
+.vintage-border::after { bottom: -4px; right: -4px; border-left: none; border-top: none; }
+
+.vintage-title {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-bottom: 1px solid rgba(43, 37, 31, 0.4);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Product Popup cursors override */
+.product-popup-backdrop {
+  cursor: url('/pointer_hand_cursor.png') 53 6, pointer !important;
+}
+
+.product-popup-card, .product-popup-card * {
+  cursor: url('/pointer_hand_cursor.png') 53 6, default !important;
+}
+
+.product-popup-close, .product-popup-close * {
+  cursor: url('/pointer_hand_cursor.png') 53 6, pointer !important;
+}
