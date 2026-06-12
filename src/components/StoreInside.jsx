@@ -35,6 +35,11 @@ const BRITISH_SHOES = {
   price: '$210 USD'
 };
 
+const DEFAULT_JACKET = [-0.74, 3.0, 17.5];
+const DEFAULT_HAT = [1.29, 1.9, 17.5];
+const DEFAULT_SHOES = [-1.09, 1.9, 18.6];
+const DEFAULT_EXIT = [0.0, 3.0, 18.0];
+
 const Hotspot = ({ position, label, onClick }) => {
   const [hovered, setHovered] = useState(false);
   const ringRef = useRef();
@@ -226,22 +231,38 @@ const StoreInside = ({ imageSrc, onBack }) => {
 
   // Load initial cylindrical positions from localStorage or defaults
   const [jacketCyl, setJacketCyl] = useState(() => {
-    const saved = localStorage.getItem('jacketCyl');
-    return saved ? JSON.parse(saved) : [-0.74, 3.0, 17.5];
+    const isCustom = localStorage.getItem('engshop_custom_coords') === 'true';
+    if (isCustom) {
+      const saved = localStorage.getItem('jacketCyl');
+      return saved ? JSON.parse(saved) : DEFAULT_JACKET;
+    }
+    return DEFAULT_JACKET;
   });
   const [hatCyl, setHatCyl] = useState(() => {
-    const saved = localStorage.getItem('hatCyl');
-    return saved ? JSON.parse(saved) : [1.29, 1.9, 17.5];
+    const isCustom = localStorage.getItem('engshop_custom_coords') === 'true';
+    if (isCustom) {
+      const saved = localStorage.getItem('hatCyl');
+      return saved ? JSON.parse(saved) : DEFAULT_HAT;
+    }
+    return DEFAULT_HAT;
   });
   const [shoesCyl, setShoesCyl] = useState(() => {
-    const saved = localStorage.getItem('shoesCyl');
-    return saved ? JSON.parse(saved) : [-1.09, 1.9, 18.6];
+    const isCustom = localStorage.getItem('engshop_custom_coords') === 'true';
+    if (isCustom) {
+      const saved = localStorage.getItem('shoesCyl');
+      return saved ? JSON.parse(saved) : DEFAULT_SHOES;
+    }
+    return DEFAULT_SHOES;
   });
   
   // Invisible Exit Portal Position (default straight ahead, slightly up)
   const [exitCyl, setExitCyl] = useState(() => {
-    const saved = localStorage.getItem('exitCyl');
-    return saved ? JSON.parse(saved) : [0.0, 3.0, 18.0];
+    const isCustom = localStorage.getItem('engshop_custom_coords') === 'true';
+    if (isCustom) {
+      const saved = localStorage.getItem('exitCyl');
+      return saved ? JSON.parse(saved) : DEFAULT_EXIT;
+    }
+    return DEFAULT_EXIT;
   });
 
   // Editor Panel (hidden by default, can be toggled using 'E' key)
@@ -255,22 +276,34 @@ const StoreInside = ({ imageSrc, onBack }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Save changes to localStorage so they persist
+  // Save changes to localStorage so they persist (ONLY when editor is open)
   useEffect(() => {
-    localStorage.setItem('jacketCyl', JSON.stringify(jacketCyl));
-  }, [jacketCyl]);
+    if (showEditor) {
+      localStorage.setItem('engshop_custom_coords', 'true');
+      localStorage.setItem('jacketCyl', JSON.stringify(jacketCyl));
+    }
+  }, [jacketCyl, showEditor]);
 
   useEffect(() => {
-    localStorage.setItem('hatCyl', JSON.stringify(hatCyl));
-  }, [hatCyl]);
+    if (showEditor) {
+      localStorage.setItem('engshop_custom_coords', 'true');
+      localStorage.setItem('hatCyl', JSON.stringify(hatCyl));
+    }
+  }, [hatCyl, showEditor]);
 
   useEffect(() => {
-    localStorage.setItem('shoesCyl', JSON.stringify(shoesCyl));
-  }, [shoesCyl]);
+    if (showEditor) {
+      localStorage.setItem('engshop_custom_coords', 'true');
+      localStorage.setItem('shoesCyl', JSON.stringify(shoesCyl));
+    }
+  }, [shoesCyl, showEditor]);
 
   useEffect(() => {
-    localStorage.setItem('exitCyl', JSON.stringify(exitCyl));
-  }, [exitCyl]);
+    if (showEditor) {
+      localStorage.setItem('engshop_custom_coords', 'true');
+      localStorage.setItem('exitCyl', JSON.stringify(exitCyl));
+    }
+  }, [exitCyl, showEditor]);
 
   // Keyboard shortcut listener to toggle coordinate editor ('e' key)
   useEffect(() => {
@@ -453,6 +486,39 @@ const StoreInside = ({ imageSrc, onBack }) => {
                 [{activeCartesian[0].toFixed(1)}, {activeCartesian[1].toFixed(1)}, {activeCartesian[2].toFixed(1)}]
               </code>
             </div>
+            <button 
+              onClick={() => {
+                if (window.confirm("Reset all coordinates back to code defaults? This will clear your custom edits.")) {
+                  localStorage.removeItem('engshop_custom_coords');
+                  localStorage.removeItem('jacketCyl');
+                  localStorage.removeItem('hatCyl');
+                  localStorage.removeItem('shoesCyl');
+                  localStorage.removeItem('exitCyl');
+                  setJacketCyl(DEFAULT_JACKET);
+                  setHatCyl(DEFAULT_HAT);
+                  setShoesCyl(DEFAULT_SHOES);
+                  setExitCyl(DEFAULT_EXIT);
+                  setShowEditor(false);
+                }
+              }}
+              style={{
+                width: '100%',
+                background: '#c0392b',
+                border: 'none',
+                color: '#fff',
+                padding: '8px',
+                borderRadius: '4px',
+                marginTop: '12px',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                fontSize: '11px',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
+              }}
+            >
+              Reset to Defaults
+            </button>
             <div style={{ marginTop: '10px', fontSize: '11px', color: 'rgba(214, 198, 167, 0.5)', textAlign: 'center' }}>
               Press 'E' to show/hide this panel anytime.
             </div>
