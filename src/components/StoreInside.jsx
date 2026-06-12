@@ -231,11 +231,11 @@ const StoreInside = ({ imageSrc, onBack }) => {
   });
   const [hatCyl, setHatCyl] = useState(() => {
     const saved = localStorage.getItem('hatCyl');
-    return saved ? JSON.parse(saved) : [-0.34, 1.8, 17.5];
+    return saved ? JSON.parse(saved) : [1.29, 1.9, 17.5];
   });
   const [shoesCyl, setShoesCyl] = useState(() => {
     const saved = localStorage.getItem('shoesCyl');
-    return saved ? JSON.parse(saved) : [0.58, -2.5, 17.5];
+    return saved ? JSON.parse(saved) : [-1.09, 1.9, 18.6];
   });
   
   // Invisible Exit Portal Position (default straight ahead, slightly up)
